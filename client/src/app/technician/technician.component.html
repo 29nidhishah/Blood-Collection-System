@@ -1,0 +1,47 @@
+<app-toolbar text="Technician {{technicianId}}">
+  <app-toolbar-link text="Submit Blood Test Report" icon="plus" [routerLink]="['bloodbags']">
+  </app-toolbar-link>
+  <app-toolbar-link text="View Blood Bag Details" icon="plus" [routerLink]="['readbloodbag']">
+  </app-toolbar-link>
+ <app-toolbar-button text="Refresh" icon="refresh" (click)="refresh()"></app-toolbar-button>
+</app-toolbar>
+<br><br><br>
+
+<div class="sidebar-layout-bottom-row p-3 container-fluid">
+  <div class="row">
+    <div class="col-xl-6 col-sm-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Details</h5>
+          <table *ngIf="technicianRecordObs | async as record">
+            <span>
+              <tr>
+                <td class="labels"><strong>Registration</strong></td>
+                <td>{{record.registration}}</td>
+              </tr>
+              <tr>
+                <td class="labels"><strong>Full Name</strong></td>
+                <td>{{record.fullName}}</td>
+              </tr>
+              <tr>
+                <td class="labels"><strong>Address</strong></td>
+                <td>{{record.address}}</td>
+              </tr>
+              <tr>
+                <td class="labels"><strong>Phone Number</strong></td>
+                <td>{{record.phoneNumber}}</td>
+              </tr>
+              <tr>
+                <td class="labels"><strong>Emergency Phone Number</strong></td>
+                <td>{{record.emergPhoneNumber}}</td>
+              </tr>
+            </span>
+          </table>
+          <div *ngIf="technicianRecordObs === undefined">
+            <p>You are not authorized to view technician details.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

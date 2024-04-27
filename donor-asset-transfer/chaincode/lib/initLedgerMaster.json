@@ -1,0 +1,39 @@
+[
+    {
+        "type": "tempRecord",
+        "bloodBagUnitNo": "510",
+        "bloodBagSegmentNo": "59",
+        "dateOfCollection": "2023-5-13",
+        "quantity": "550",
+        "dateOfExpiry":"2023-6-13",
+        "bloodGroup":"O+",
+        "results":{}
+    },
+    {
+        "type": "tempRecord",
+        "bloodBagUnitNo": "520",
+        "bloodBagSegmentNo": "54",
+        "dateOfCollection": "2023-9-20",
+        "quantity": "450",
+        "dateOfExpiry":"2023-9-20",
+        "bloodGroup":"AB+",
+        "results":{}
+    },
+    {
+        "type": "finalRecord",
+        "bloodBagUnitNo": "500",
+        "bloodBagSegmentNo": "35",
+        "dateOfCollection": "2022-5-13",
+        "quantity": "500",
+        "dateOfExpiry": "2022-7-13",
+        "bloodGroup": "B+",
+        "results": {
+            "malaria": "false",
+            "syphilis": "false",
+            "hcv": "false",
+            "hepatitisB": "false",
+            "irregularAntibody": "false",
+            "checkedBy": "hosp1-tech2"
+        }
+    }
+]

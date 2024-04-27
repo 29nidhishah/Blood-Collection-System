@@ -1,0 +1,132 @@
+<app-toolbar text="Donor {{donorID}}">
+  <app-toolbar-link *ngIf="isDonor()" text="Edit personal details" icon="edit"
+    [routerLink]="['/donor/edit/', donorID]">
+  </app-toolbar-link>
+  <!--<app-toolbar-button *ngIf="isDoctor()" text="Screen Donor" icon="screen" (click)="openScreeningForm()"></app-toolbar-button>
+  -->
+  <app-toolbar-link *ngIf="isDoctor()" text="Edit medical details" icon="edit"
+    [routerLink]="['/donor/edit/', donorID]">
+  </app-toolbar-link>
+  <!--<app-toolbar-link *ngIf="isDonor()" text="View doctors" icon="user-md" routerLink="doctors/list"></app-toolbar-link>
+  <app-toolbar-link text="View history" icon="history" routerLink="history"></app-toolbar-link>-->
+  <app-toolbar-button text="Refresh" icon="refresh" (click)="refresh()"></app-toolbar-button>
+</app-toolbar>
+<br><br><br>
+
+<div class="sidebar-layout-bottom-row p-3 container-fluid">
+  <div class="row">
+    <div class="col-xl-6 col-sm-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Details</h5>
+          <ng-container *ngIf="donorRecordObs | async as record">
+          <table >
+            <span>
+            <tr>
+                  <td class="labels"><strong>Aadhar number</strong></td>
+                  <td>{{record.aadhar}}</td>
+                </tr>
+              <tr>
+                <td class="labels"><strong>Donor ID</strong></td>
+                <td>{{record.donorId}}</td>
+              </tr>
+              <tr>
+                <td class="labels"><strong>First Name</strong></td>
+                <td>{{record.firstName}}</td>
+              </tr>
+              <tr>
+                <td class="labels"><strong>Last Name</strong></td>
+                <td>{{record.lastName}}</td>
+              </tr>
+              <tr>
+                <td class="labels"><strong>Date of Birth</strong></td>
+                <td>{{record.dob}}</td>
+              </tr>
+              <ng-container *ngIf="isDonor()">
+                <tr>
+                  <td class="labels"><strong>Contact number</strong></td>
+                  <td>{{record.phoneNumber}}</td>
+                </tr>
+                <tr>
+                  <td class="labels"><strong>Address</strong></td>
+                  <td>{{record.address}}</td>
+                </tr>
+              </ng-container>
+              <tr>
+                <td class="labels"><strong>Blood Group</strong></td>
+                <td>{{record.bloodGroup}}</td>
+              </tr>
+              <tr>
+                <td class="labels"><strong>Alert</strong></td>
+                <td>{{record.alert}}</td>
+              </tr>
+              <tr>
+                <td class="labels"><strong>Is Diseased</strong></td>
+                <td>{{record.isDiseased}}</td>
+              </tr>
+              <tr>
+                <td class="labels"><strong>Credit Card</strong></td>
+                <td>{{record.creditCard}}</td>
+              </tr>
+              <tr>
+                <td class="labels"><strong>Donation Status</strong></td>
+                <td>{{record.donationStatus}}</td>
+              </tr>
+              <tr>
+                <td class="labels"><strong>Donation History</strong></td>
+              </tr>
+           <ng-container *ngFor="let donation of (record.donationHistory | keyvalue)">
+  <tr>
+    <td class="labels"><strong>{{donation.key}}</strong></td>
+    <td>
+      <ul *ngIf="donation.value">
+  <li>Date of Donation: {{ donation.value['dateOfDonation'] }}</li>
+  <li>Status: {{ donation.value['status'] }}</li>
+  <li>Screened By: {{donation.value['screenedBy']}}</li>
+
+  <ng-container *ngIf="donation.value['status'] === 'failed'; else progressBlock">
+    <li>Reason: {{donation.value['reason']}}</li>
+  </ng-container>
+
+  <ng-template #progressBlock>
+    <ng-container *ngIf="donation.value['status'] === 'in progress'; else successBlock">
+      <app-toolbar-link text="Collect Blood" icon="edit"
+      [routerLink]="['/donor/collect-blood/', donorID,doctorID]">
+    </app-toolbar-link>
+    </ng-container>
+
+    <ng-template #successBlock>
+      <li>Blood Collected By: {{ donation.value['collectedBy'] }}</li>
+      <li>Blood Bag Unit No: {{ donation.value['bloodBagUnitNo'] }}</li>
+      <li>Blood Bag Segment No: {{ donation.value['bloodBagSegmentNo'] }}</li>
+      <li>Quantity: {{ donation.value['quantity'] }}</li>
+    </ng-template>
+  </ng-template>
+</ul>
+
+
+    </td>
+  </tr>
+</ng-container>
+
+            </span>
+          </table>
+          <ng-container *ngIf="isDoctor()">
+    <app-toolbar-link text="Screen Donor" icon="edit"
+      [routerLink]="['/donor/screen/', donorID, doctorID, record?.dob]">
+    </app-toolbar-link>
+    
+    </ng-container>
+          </ng-container>
+          <div *ngIf="donorRecordObs === undefined">
+            <p>You are not authorized to view donor details.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<app-geo-button *ngIf="isDonor()">
+</app-geo-button>
+
+</div>
+

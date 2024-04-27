@@ -1,0 +1,13 @@
+<app-toolbar text="Admin {{adminId}}">
+  <app-toolbar-link text="Create Donor" icon="plus" routerLink="/donor/edit/new"></app-toolbar-link>
+  <app-toolbar-link text="Create Doctor" icon="plus" routerLink="/doctor/register"></app-toolbar-link>
+  <app-toolbar-link text="Create Technician" icon="plus" routerLink="/technician/register"></app-toolbar-link>
+  <app-toolbar-link text="View Doctors" icon="plus" routerLink="/doctor/view/{{adminId}}"></app-toolbar-link>
+  <app-toolbar-link text="View Technicians" icon="plus" routerLink="/technician/view/{{adminId}}"></app-toolbar-link>
+  <app-toolbar-link text="View Donors" icon="plus" routerLink="/donor/view/{{adminId}}"></app-toolbar-link>
+  <app-toolbar-link text="View All Hospitals"routerLink="/viewHospitals"></app-toolbar-link>
+  <app-toolbar-link text="Add Hospital"routerLink="/addHospital"></app-toolbar-link>
+  <app-toolbar-link text="Display Hospitals and Stocks below threshold"routerLink="/displayStocksBelowThreshold"></app-toolbar-link>
+  <!--<app-toolbar-button text="Refresh" icon="refresh" (click)="refresh()"></app-toolbar-button>-->
+</app-toolbar>
+<br><br><br>

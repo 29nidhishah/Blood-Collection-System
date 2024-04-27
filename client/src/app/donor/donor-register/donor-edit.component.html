@@ -1,0 +1,140 @@
+<app-toolbar [text]="title">
+  <app-toolbar-button text="Refresh" icon="refresh" (click)="refresh()"></app-toolbar-button>
+</app-toolbar>
+<br><br><br>
+
+<div class="sidebar-layout-bottom-row p-3 container-fluid">
+  <div class="row">
+    <div class="offset-xl-3 col-xl-6 col-sm-8">
+      <div class="card">
+        <div class="card-body">
+          <p>Please fill out donor details. All fields are required.</p>
+          <form #registerDonor="ngForm" (ngSubmit)="save()" class="form-horizontal form-standard" [formGroup]="form">
+            <fieldset class="mb-3">
+              <ng-container *ngIf="isDonor() || isNew()">
+                <div class="form-group">
+                  <label for="aadhar">Aadhar number</label>
+                  <input type="text" class="form-control" name="aadhar" formControlName="aadhar"
+                    placeholder="Enter your aadhar number." [readonly]="isEditForm()">
+                </div>
+                <div class="form-group">
+                  <label for="firstName">First name</label>
+                  <input type="text" class="form-control" name="firstName" formControlName="firstName"
+                    placeholder="Enter your first name." [readonly]="isEditForm()">
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Last name</label>
+                  <input type="text" class="form-control" name="firstName" formControlName="lastName"
+                    placeholder="Enter your last name." [readonly]="isEditForm()">
+                </div>
+                <div class="form-group">
+                  <label for="address">Address</label>
+                  <textarea class="form-control" name="address" formControlName="address"
+                    placeholder="Enter your address."></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="dob">Date of Birth</label>
+                  <input type="date" class="form-control" name="dob" formControlName="dob"
+                    placeholder="Enter your date of birth." [readonly]="isEditForm()">
+                </div>
+                <div *ngIf="isNew()" class="form-group">
+                  <label for="bloodGroup">Blood group</label>
+                  <ng-select name="bloodGroup" formControlName="bloodGroup"
+                    placeholder="Select your blood group." [items]="bloodGroupTypes" bindLabel="name" bindValue="id">
+                  </ng-select>
+                </div>
+                <div class="form-group">
+                  <label for="phoneNumber">Contact number</label>
+                  <input type="text" class="form-control" name="phoneNumber" formControlName="phoneNumber"
+                    placeholder="Enter your contact number.">
+                </div>
+              </ng-container>
+              <ng-container *ngIf="isDoctor() && !isNew()">
+                <!--<div class="form-group">
+                  <label for="alert">Alert</label>
+                  <input type="text" class="form-control" name="alert" formControlName="alert"
+                         placeholder="Does donor require thorough checkup?">
+                </div>
+                <div class="form-group">
+                  <label for="isDiseased">Is Diseased</label>
+                  <input type="text" class="form-control" name="isDiseased" formControlName="isDiseased"
+                         placeholder="Is donor diseased.">
+                </div>
+                <div class="form-group">
+                  <label for="creditCard">Credit Card</label>
+                  <input type="text" class="form-control" name="creditCard" formControlName="creditCard"
+                         placeholder="What is new credit card score?">
+                </div>
+                <div class="form-group">
+                  <label for="donationStatus">Donation Status</label>
+                  <input type="text" class="form-control" name="donationStatus" formControlName="donationStatus"
+                         placeholder="What is Donation Status?">
+                </div>
+                <div class="form-group">
+                  <label for="followUp">Follow Up Duration</label>
+                  <input type="text" class="form-control" name="followUp" formControlName="followUp"
+                         placeholder="Enter follow up duration.">
+                </div>-->
+                <div class="form-group">
+		<label for="alert">Alert</label>
+		<select class="form-control" name="alert" formControlName="alert" [disabled]="!isDoctor() || isNew()">
+		<option value="true">True</option>
+		<option value="false">False</option>
+		</select>
+		</div>
+		<div class="form-group">
+		<label for="isDiseased">Is Diseased</label>
+		<select class="form-control" name="isDiseased" formControlName="isDiseased" [disabled]="!isDoctor() || isNew()">
+		<option value="true">True</option>
+		<option value="false">False</option>
+		</select>
+		</div>
+              </ng-container>
+              <div *ngIf="newDonorData">
+                <p class="alert alert-success">New donor's credentials: {{newDonorData.id}} - {{newDonorData.password}}</p>
+              </div>
+              <div class="form-group form-buttons">
+                <ng-container *ngIf="!newDonorData">
+                  <button class="btn btn-primary mr-2" type="submit" [disabled]="registerDonor.invalid">Save</button>
+                  <a [routerLink]="[isNew() ? '/admin/' + getAdminUsername() : '/donor/' + donorId]"
+                    class="btn btn-secondary">
+                    Cancel
+                  </a>
+                </ng-container>
+                  <button *ngIf="newDonorData" class="btn btn-secondary" type="button" (click)="reset()">OK</button>
+                  <!--<button class="btn btn-danger" type="button" (click)="findInvalidControls()">TEST</button>-->
+              </div>
+              <div *ngIf="error">
+                <p class="alert alert-danger">{{error.message}}</p>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #successfulRegistration let-close="close" let-dismiss="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <i class="fa fa-university mr-2"></i>New donor's user id and password
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="dismiss('Cross click')">
+      <span aria-hidden="true">x</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Enter password for authentication</p>
+    <!--<div class="form-group">
+      <input type="password" name="password" class="form-control rounded-1" required
+             [(ngModel)]="pwd">
+    </div>-->
+  </div>
+  <div class="modal-footer">
+    <button type="button" id="donorPwd" class="btn btn-danger" (click)="close('Confirm password')">
+      Confirm Password
+    </button>
+    <button type="button" class="btn btn-outline-dark" (click)="dismiss('Cancel click')">Cancel</button>
+  </div>
+</ng-template>
